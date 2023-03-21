@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>HTTP Request Example</title>
+    <style>
+      /* Define styles for the data container */
+      #data-container {
+        font-family: monospace;
+        white-space: pre-wrap;
+        padding: 1em;
+        background-color: #F6F6F6;
+        border: 1px solid #DDD;
+        border-radius: 5px;
+      }
+      /* Define classes for different colors */
+      .color-1 {
+        color: #FF4136; /* red */
+      }
+      .color-2 {
+        color: #0074D9; /* blue */
+      }
+      .color-3 {
+        color: #2ECC40; /* green */
+      }
+      /* Add more classes for other colors as needed */
+    </style>
+  </head>
+  <body>
+    <button id="fetch-button">Fetch Data</button>
+    <div id="data-container"></div>
+
+    <script>
+      const button = document.getElementById("fetch-button");
+      const dataContainer = document.getElementById("data-container");
+      button.addEventListener("click", () => {
+        fetch("https://opentdb.com/api.php?amount=10")
+          .then((response) => response.json())
+          .then((data) => {
+            // Create a new HTML element to display the data
+            const dataElement = document.createElement("div");
+            // Use template literals and spans to apply different colors to each letter
+            const formattedData = JSON.stringify(data, null, 2)
+              .split("")
+              .map((char, index) => `<span class="color-${(index % 3) + 1}">${char}</span>`)
+              .join("");
+            dataElement.innerHTML = formattedData;
+            // Append the element to the container on the page
+            dataContainer.appendChild(dataElement);
+          })
+          .catch((error) => console.error(error));
+      });
+    </script>
+  </body>
+</html>
